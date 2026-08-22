@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financitas - Inteligência Financeira</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='%237B2CBF' d='M448 256c0-106-86-192-192-192V256H448zM224 64C118 64 32 150 32 256s86 192 192 192 192-86 192-192H224V64z'/></svg>">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        
+        <!-- Menu Lateral -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-chart-pie"></i>
+                <h2>Financitas</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li class="active"><a href="index.html"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+                    <li><a href="metas.html"><i class="fa-solid fa-bullseye"></i> Metas & Previsão</a></li>
+                    <li><a href="categorias.html"><i class="fa-solid fa-tags"></i> Categorias</a></li>
+                    <li><a href="configuracoes.html"><i class="fa-solid fa-gear"></i> Configurações</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            
+            <!-- Cabeçalho -->
+            <header class="page-header">
+                <h1>Visão Geral</h1>
+                
+                <!-- MENU DE MÊS CUSTOMIZADO -->
+                <div class="month-select-wrapper">
+                    <div id="dropdown-mes-container" class="custom-select" style="width: 220px;">
+                        <div class="select-trigger month-trigger">
+                            <i class="fa-solid fa-calendar-days icon-calendar"></i>
+                            <span id="mes-selecionado-texto">Carregando...</span>
+                            <i class="fa-solid fa-chevron-down icon-arrow"></i>
+                        </div>
+                        <div id="lista-meses-opcoes" class="select-dropdown custom-month-dropdown hidden">
+                            <!-- Preenchido via JS -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="user-info">
+                    <div class="user-status">
+                        <span class="text-muted">Modo Offline (Local)</span>
+                        <i class="fa-solid fa-circle-user text-muted"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Cards de Resumo -->
+            <section class="summary-cards">
+                <div class="card">
+                    <div class="card-info">
+                        <h3>Receita Mensal</h3>
+                        <p id="receita-total">R$ 0,00</p>
+                    </div>
+                    <i class="fa-solid fa-wallet icon-green"></i>
+                </div>
+                <div class="card">
+                    <div class="card-info">
+                        <h3>Gastos do Mês</h3>
+                        <p id="gasto-total">R$ 0,00</p>
+                    </div>
+                    <i class="fa-solid fa-arrow-trend-down icon-red"></i>
+                </div>
+                <div class="card">
+                    <div class="card-info">
+                        <h3>Saldo Previsto</h3>
+                        <p id="saldo-previsto">R$ 0,00</p>
+                    </div>
+                    <i class="fa-solid fa-piggy-bank icon-blue"></i>
+                </div>
+            </section>
+
+            <div class="elegant-divider"></div>
+
+            <!-- SEÇÃO 1: RADAR DE SOBREVIVÊNCIA -->
+            <div class="section-header">
+                <h2>📊 Radar de Sobrevivência (Composição da Receita)</h2>
+                <p>Nesta visão, a sua Receita é 100% da pizza. Veja quais fatias os seus gastos estão consumindo.</p>
+            </div>
+            
+            <section class="radar-grid">
+                <div class="panel chart-panel">
+                    <h3 class="chart-title">Sobrevivência (Gastos Fixos)</h3>
+                    <p class="radar-receita-sub"></p>
+                    <div class="chart-container radar-container">
+                        <canvas id="graficoRadarFixos"></canvas>
+                    </div>
+                </div>
+                <div class="panel chart-panel">
+                    <h3 class="chart-title">Estilo de Vida (Gastos Voláteis)</h3>
+                    <p class="radar-receita-sub"></p>
+                    <div class="chart-container radar-container">
+                        <canvas id="graficoRadarVolateis"></canvas>
+                    </div>
+                </div>
+                <div class="panel chart-panel">
+                    <h3 class="chart-title">Consumo Total da Receita</h3>
+                    <p class="radar-receita-sub"></p>
+                    <div class="chart-container radar-container">
+                        <canvas id="graficoRadarAmbos"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <div class="elegant-divider"></div>
+
+            <!-- SEÇÃO 2: PAINEL DE GRÁFICOS E METAS -->
+            <section class="dashboard-grid">
+                
+                <!-- 1. Gráfico de Rosca -->
+                <div class="panel chart-panel">
+                    <h3><i class="fa-solid fa-chart-pie chart-icon-primary"></i> Despesas por Categoria</h3>
+                    <div class="chart-container">
+                        <canvas id="graficoCategorias"></canvas>
+                    </div>
+                </div>
+
+                <!-- 2. Gráfico de Barras -->
+                <div class="panel chart-panel">
+                    <h3><i class="fa-solid fa-chart-column chart-icon-info"></i> Balanço</h3>
+                    <div class="chart-container">
+                        <canvas id="graficoEvolucao"></canvas>
+                    </div>
+                </div>
+
+                <!-- 3. Top 5 Ralos de Dinheiro -->
+                <div class="panel">
+                    <h3><i class="fa-solid fa-fire chart-icon-danger"></i> Top 5 Maiores Gastos</h3>
+                    <div id="lista-top5" class="top5-list"></div>
+                </div>
+
+                <!-- 4. Controle de Orçamento -->
+                <div class="panel">
+                    <div class="budget-header">
+                        <h3><i class="fa-solid fa-bullseye chart-icon-success"></i> Metas de Orçamento</h3>
+                        <button id="btn-editar-orcamentos" title="Configurar Metas" class="btn-icon">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                    </div>
+                    <div id="lista-orcamentos" class="orcamento-list"></div>
+                </div>
+            </section>
+
+            <!-- SEÇÃO 3: UPLOAD E PROCESSAMENTO -->
+            <section class="upload-section">
+                <h2>Processar Nova Fatura</h2>
+                <div class="upload-box">
+                    <label for="arquivo-csv" class="custom-file-upload">
+                        <i class="fa-solid fa-file-csv"></i> 
+                        <span id="file-name-display">Escolher Arquivo CSV</span>
+                    </label>
+                    <input type="file" id="arquivo-csv" accept=".csv" class="hidden-input">
+                    
+                    <button id="btn-processar" class="btn-primary">
+                        <i class="fa-solid fa-robot"></i> Processar com IA
+                    </button>
+
+                    <!-- Botão do Dicionário Atualizado -->
+                    <button id="btn-abrir-heuristicas" class="btn-primary" style="background-color: transparent; border: 1px solid var(--primary-color); color: var(--text-main);">
+                        <i class="fa-solid fa-book-journal-whills"></i> Dicionário da IA
+                    </button>
+                </div>
+                <div id="loading-spinner" class="hidden">Analisando dados matemáticos...</div>
+            </section>
+
+            <!-- SEÇÃO 4: HISTÓRICO GERAL (Com Filtros) -->
+            <section class="historico-section">
+                <details class="accordion-historico" open>
+                    <summary><i class="fa-solid fa-clock-rotate-left"></i> Histórico Geral de Transações</summary>
+                    <div class="accordion-content">
+                        
+                        <div class="flex-between bottom-border" style="margin-bottom: 15px; padding-bottom: 15px;">
+                            <span class="text-muted" style="font-size: 0.95rem;">Filtro de Exibição:</span>
+                            <div id="filtros-historico" style="display: flex; gap: 10px;">
+                                <button class="btn-filtro active" data-filter="todos">Todos</button>
+                                <button class="btn-filtro" data-filter="ia">Apenas IA</button>
+                                <button class="btn-filtro" data-filter="manual">Ajuste Manual</button>
+                            </div>
+                        </div>
+
+                        <div id="lista-historico" class="lista-gastos">
+                            <p class="loading-history">
+                                <i class="fa-solid fa-spinner fa-spin"></i> Carregando histórico...
+                            </p>
+                        </div>
+                        <div class="acoes-finais">
+                            <button id="btn-atualizar-historico" class="btn-success">
+                                <i class="fa-solid fa-arrows-rotate"></i> Confirmar e Atualizar Informações
+                            </button>
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            
+
+        </main>
+    </div>
+
+    <!-- MODAL DE REVISÃO DE FATURA -->
+    <div id="modal-revisao" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-triangle-exclamation icon-warning"></i> Gastos Incertos</h2>
+                <p>Por favor, categorize os itens abaixo para treinar a Inteligência Artificial.</p>
+            </div>
+            <div class="modal-body">
+                <div id="lista-incertos" class="lista-gastos"></div>
+            </div>
+            <div class="modal-footer footer-spaced">
+                <button id="btn-cancelar-revisao" class="btn-cancel">Cancelar Upload</button>
+                <button id="btn-salvar" class="btn-success">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Confirmar e Salvar Fatura
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE METAS DE ORÇAMENTO -->
+    <div id="modal-orcamentos" class="modal-overlay hidden">
+        <div class="modal-content budget-modal">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-bullseye chart-icon-success"></i> Configurar Metas</h2>
+                <p>Defina o limite mensal de gastos para cada categoria.</p>
+                <p>Deixe <b>0</b> nas categorias que você não quer rastrear.</p>
+            </div>
+            <div class="modal-body form-orcamentos-container" id="form-orcamentos">
+                <!-- Preenchido via JavaScript -->
+            </div>
+            <div class="modal-footer footer-spaced">
+                <button id="btn-fechar-orcamentos" class="btn-cancel">Cancelar</button>
+                <button id="btn-salvar-orcamentos" class="btn-success">Salvar Metas</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE ATALHOS DA IA (HEURÍSTICAS) -->
+    <div id="modal-heuristicas" class="modal-overlay hidden">
+        <div class="modal-content medium-modal">
+            
+            <!-- TELA 1: Seleção de Categoria -->
+            <div id="heuri-tela1">
+                <div class="modal-header">
+                    <h2><i class="fa-solid fa-book-journal-whills chart-icon-primary"></i> Dicionário da IA</h2>
+                    <p>Selecione uma categoria para adicionar atalhos de palavras-chave.</p>
+                </div>
+                <div class="modal-body" id="grid-categorias-heuri" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                    <!-- Preenchido via JS -->
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel btn-fechar-heuri">Fechar</button>
+                </div>
+            </div>
+
+            <!-- TELA 2: Edição das Palavras -->
+            <div id="heuri-tela2" class="hidden">
+                <div class="modal-header flex-between">
+                    <div>
+                        <h2>Atalhos: <span id="heuri-cat-nome" class="text-green">Categoria</span></h2>
+                    </div>
+                    <button id="btn-voltar-heuri" class="btn-icon"><i class="fa-solid fa-arrow-left"></i> Voltar</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group flex-between" style="flex-direction: row;">
+                        <input type="text" id="input-nova-heuri" class="input-orcamento" style="width: 75%; text-align: left;" placeholder="Ex: uber">
+                        <button id="btn-add-heuri" class="btn-success" style="padding: 8px 15px;"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                    <p class="text-muted" style="font-size: 0.8rem; margin-bottom: 15px;">A IA marcará compras com essa palavra automaticamente.</p>
+                    
+                    <div id="lista-tags-heuri" style="display: flex; flex-wrap: wrap; gap: 8px; max-height: 200px; overflow-y: auto;">
+                        <!-- Tags preenchidas via JS -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-primary btn-fechar-heuri">Finalizar</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- Modal de Alerta Customizado (Global) -->
+    <div id="custom-alert" class="alerta-modal">
+        <div class="alerta-content">
+            <div id="alert-icon" class="alerta-icone">
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <h3 id="alert-title">Aviso</h3>
+            <p id="alert-message" class="alerta-mensagem">Sua mensagem aqui.</p>
+            <button class="btn-primary full-width" onclick="fecharAlerta()">Entendi</button>
+        </div>
+    </div>
+    
+    <!-- Modal de Confirmação Customizado (Global) -->
+    <div id="custom-confirm" class="alerta-modal">
+        <div class="alerta-content">
+            <div class="alerta-icone erro">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3>Confirmação Necessária</h3>
+            <p id="confirm-message" class="alerta-mensagem">Tem certeza que deseja fazer isso?</p>
+            <div class="modal-footer footer-spaced" style="margin-top: 25px; padding: 0; border: none;">
+                <button class="btn-cancel" onclick="fecharConfirm(false)">Cancelar</button>
+                <button class="btn-success" onclick="fecharConfirm(true)" style="background-color: var(--danger); border-color: var(--danger);">Sim, Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,1033 @@
+/* =========================================
+   FINANCITAS - FOLHA DE ESTILOS MESTRE
+   =========================================
+   Índice:
+   1. Variáveis e Temas (Root, Light, Privacy)
+   2. Reset Global & Estrutura Base
+   3. Sidebar e Menu de Navegação
+   4. Cabeçalho e Painéis
+   5. Modais (Pop-ups)
+   6. Componentes Customizados (Selects, Toggles, Badges)
+   7. Fases 1 a 3: Dashboard e Histórico
+   8. Fase 4: Metas e Previsão
+   9. Fase 5: Gestão de Categorias
+========================================= */
+
+/* =========================================
+   1. VARIÁVEIS E TEMAS
+========================================= */
+:root {
+    --primary-color: #9D4EDD; 
+    --primary-hover: #7B2CBF;
+    --bg-color: #10002B; 
+    --sidebar-bg: #240046; 
+    --card-bg: #3C096C;
+    --progress-bg: #10002B; 
+    --text-main: #FFFFFF;
+    --text-muted: #E0AAFF; 
+    --success: #2ECC71; 
+    --success-hover: #27AE60;
+    --danger: #FF4D4D;
+    --info: #00B4D8;
+    --border-color: #5A189A;
+}
+
+/* Modo Claro */
+:root.light-mode {
+    --bg-color: #F4F1EE;
+    --sidebar-bg: #FDFBF7;
+    --card-bg: #FDFBF7;
+    --border-color: #E6E1D8;
+    --progress-bg: #c0c0c0;
+    --text-main: #2B2D42;
+    --text-muted: #8D99AE;
+    --primary-color: #7209B7;
+    --primary-hover: #560BAD;
+}
+
+/* Modo Privacidade */
+html.modo-privado #receita-total,
+html.modo-privado #gasto-total,
+html.modo-privado #saldo-previsto,
+html.modo-privado #valor-projecao-total,
+html.modo-privado .valor-transacao,
+html.modo-privado .top5-valor,
+html.modo-privado .meta-title span:nth-child(3),
+html.modo-privado .radar-receita-sub strong,
+html.modo-privado .predicao-row strong {
+    filter: blur(6px);
+    opacity: 0.7;
+    user-select: none;
+    transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+html.modo-privado #receita-total:hover,
+html.modo-privado #gasto-total:hover,
+html.modo-privado #saldo-previsto:hover,
+html.modo-privado #valor-projecao-total:hover,
+html.modo-privado .valor-transacao:hover,
+html.modo-privado .top5-valor:hover,
+html.modo-privado .meta-title span:nth-child(3):hover,
+html.modo-privado .radar-receita-sub strong:hover,
+html.modo-privado .predicao-row strong:hover {
+    filter: blur(0px);
+    opacity: 1;
+}
+
+/* =========================================
+   2. RESET GLOBAL & ESTRUTURA BASE
+========================================= */
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    font-family: 'Poppins', sans-serif; 
+}
+
+body { 
+    background-color: var(--bg-color); 
+    color: var(--text-main); 
+}
+
+.app-container { 
+    display: flex; 
+    min-height: 100vh; 
+}
+
+.hidden { 
+    display: none !important; 
+}
+
+/* Classes Utilitárias Criadas na Refatoração */
+.elegant-divider {
+    width: 100%; 
+    height: 1px; 
+    background: linear-gradient(90deg, transparent, var(--primary-color), transparent); 
+    opacity: 0.4; 
+    margin: 10px 0 50px 0;
+}
+
+.text-muted { color: var(--text-muted); }
+.text-green { color: var(--success) !important; }
+.text-red { color: var(--danger) !important; }
+
+/* Scrollbars */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background-color: var(--sidebar-bg); border-radius: 10px; }
+::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-radius: 10px; border: 2px solid var(--sidebar-bg); }
+::-webkit-scrollbar-thumb:hover { background-color: var(--primary-hover); }
+
+/* =========================================
+   3. SIDEBAR E MENU DE NAVEGAÇÃO
+========================================= */
+.sidebar { 
+    width: 260px; 
+    background-color: var(--sidebar-bg); 
+    border-right: 1px solid var(--border-color); 
+    padding: 25px 20px; 
+    display: flex; 
+    flex-direction: column; 
+}
+
+.logo { 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    color: var(--text-main); 
+    margin-bottom: 40px; 
+    font-size: 1.4rem; 
+}
+
+nav ul { list-style: none; }
+nav ul li { margin-bottom: 10px; }
+nav ul li a { 
+    text-decoration: none; 
+    color: var(--text-muted); 
+    font-weight: 500; 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    padding: 12px 15px; 
+    border-radius: 8px; 
+    transition: all 0.3s ease; 
+}
+nav ul li.active a, nav ul li a:hover { 
+    background-color: var(--primary-color); 
+    color: var(--text-main);
+    
+}
+
+/* =========================================
+   4. CABEÇALHO E PAINÉIS
+========================================= */
+.main-content { 
+    flex: 1; 
+    padding: 40px 50px; 
+}
+
+.page-header { 
+    position: relative; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 40px; 
+    min-height: 60px; 
+}
+
+.user-info { 
+    display: flex; 
+    gap: 25px; 
+    align-items: center; 
+}
+.user-status {
+    display: flex; 
+    align-items: center; 
+    gap: 10px;
+}
+
+.panel { 
+    background-color: var(--sidebar-bg); 
+    padding: 25px; 
+    border-radius: 16px; 
+    border: 1px solid var(--border-color); 
+}
+
+.full-width { width: 100%; }
+
+/* =========================================
+   5. MODAIS (POP-UPS)
+========================================= */
+
+/* =========================================
+   MODAL DE ALERTA CUSTOMIZADO
+========================================= */
+.alerta-modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.alerta-modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.alerta-content {
+    background-color: var(--sidebar-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 30px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transform: translateY(-20px) scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.alerta-modal.show .alerta-content {
+    transform: translateY(0) scale(1);
+}
+
+.alerta-icone {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+}
+.alerta-icone.sucesso { color: var(--success); }
+.alerta-icone.erro { color: var(--danger); }
+.alerta-icone.aviso { color: var(--info); }
+
+.alerta-content h3 {
+    margin-bottom: 10px;
+    color: var(--text-main);
+}
+.alerta-mensagem {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 25px;
+}
+
+.modal-overlay { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    background-color: rgba(0, 0, 0, 0.7); 
+    backdrop-filter: blur(5px); 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    z-index: 1000; 
+}
+
+.modal-content { 
+    background-color: var(--sidebar-bg); 
+    width: 95%; 
+    max-width: 1100px; 
+    max-height: 85vh; 
+    border-radius: 16px; 
+    border: 1px solid var(--border-color); 
+    display: flex; 
+    flex-direction: column; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+}
+
+.modal-header { 
+    padding: 25px; 
+    border-bottom: 1px solid var(--border-color); 
+}
+.modal-header h2 { 
+    color: var(--text-main); 
+    margin-bottom: 5px;
+}
+.modal-header p { 
+    color: var(--text-muted); 
+    font-size: 0.9rem;
+}
+
+.modal-body { 
+    padding: 25px; 
+    overflow-y: auto; 
+}
+.modal-body::-webkit-scrollbar-track { 
+    background-color: var(--bg-color); 
+}
+
+.modal-footer { 
+    background-color: var(--bg-color); 
+    border-top: 1px solid var(--border-color); 
+    padding: 20px 25px; 
+    border-radius: 0 0 12px 12px;
+    text-align: right;
+}
+
+/* =========================================
+   6. COMPONENTES CUSTOMIZADOS
+========================================= */
+/* Botões Base */
+.btn-primary { 
+    background-color: var(--primary-color); 
+    color: white; 
+    border: none; 
+    padding: 12px 24px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-weight: 600; 
+    transition: background 0.3s; 
+}
+.btn-primary:hover { 
+    background-color: var(--primary-hover); 
+}
+
+.btn-success { 
+    background-color: var(--success); 
+    color: var(--bg-color); 
+    border: none; 
+    padding: 12px 28px; 
+    border-radius: 8px; 
+    font-size: 1rem; 
+    font-weight: 700; 
+    cursor: pointer; 
+    transition: background 0.3s; 
+}
+.btn-success:hover { 
+    background-color: var(--success-hover); 
+}
+
+.btn-cancel {
+    background-color: transparent; 
+    border: 1px solid var(--border-color); 
+    color: var(--text-main);
+    padding: 12px 24px; 
+    border-radius: 8px; 
+    font-weight: 600; 
+    cursor: pointer; 
+    transition: all 0.3s; 
+}
+
+.btn-icon { 
+    background: none; 
+    border: none; 
+    color: var(--text-muted); 
+    cursor: pointer; 
+    font-size: 1.1rem; 
+    transition: color 0.3s; 
+}
+.btn-icon:hover { color: var(--success); }
+
+/* Badges e Pílulas */
+.cat-badge { 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    padding: 6px 12px; 
+    border-radius: 8px; 
+    font-size: 0.85rem; 
+    font-weight: 600; 
+    user-select: none; 
+    transition: filter 0.2s; 
+}
+.cat-badge > div { display: flex; align-items: center; gap: 10px; }
+.cat-option { cursor: pointer; }
+.cat-option:hover { filter: brightness(0.9); }
+.custom-chevron { font-size: 0.75rem; opacity: 0.7; }
+.badge-media { background-color: var(--primary-color); color: white; font-size: 0.8rem; padding: 4px 10px; border-radius: 12px; margin-left: 10px; vertical-align: middle; }
+
+/* Custom Select (Menus Roláveis) */
+.custom-select { position: relative; width: 210px; }
+.select-trigger { cursor: pointer; width: 100%; }
+.select-dropdown { 
+    position: absolute; 
+    top: 105%; 
+    left: 0; 
+    width: 100%; 
+    background-color: var(--sidebar-bg); 
+    border: 1px solid var(--border-color); 
+    border-radius: 8px; 
+    padding: 10px; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 8px; 
+    z-index: 1000; 
+    max-height: 250px; 
+    overflow-y: auto; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
+}
+.select-dropdown::-webkit-scrollbar { width: 6px; }
+.select-dropdown::-webkit-scrollbar-thumb { background-color: var(--border-color); border-radius: 6px; }
+
+/* Menu de Meses (Refatorado do HTML) */
+.month-select-wrapper {
+    position: absolute; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    z-index: 1000;
+}
+.month-trigger {
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 12px; 
+    background-color: var(--sidebar-bg); 
+    padding: 12px 25px; 
+    border-radius: 12px; 
+    border: 2px solid var(--success); 
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.25);
+    transition: filter 0.2s;
+}
+.month-trigger:hover { filter: brightness(1.2); }
+#mes-selecionado-texto { color: var(--success); font-size: 1.3rem; font-weight: 700; }
+.icon-calendar { color: var(--success); font-size: 1.4rem; }
+.icon-arrow { color: var(--success); font-size: 0.9rem; }
+.custom-month-dropdown {
+    border: 2px solid var(--success); 
+    border-radius: 12px; 
+    top: calc(100% + 8px); 
+    padding: 8px;
+}
+.month-option { 
+    padding: 12px 15px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-weight: 600; 
+    font-size: 1.15rem; 
+    color: var(--success); 
+    transition: all 0.2s; 
+    text-align: center; 
+}
+.month-option:hover { 
+    background-color: var(--success); 
+    color: var(--sidebar-bg); 
+}
+
+/* Toggles / Switches (IA e Configurações) */
+.toggle-container { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.toggle-label { font-size: 0.85rem; color: var(--text-muted); font-weight: 500;}
+.switch { position: relative; display: inline-block; width: 40px; height: 22px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--border-color); transition: .4s; border-radius: 22px; }
+.slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+input:checked + .slider { background-color: var(--success); }
+input:checked + .slider:before { transform: translateX(18px); }
+
+/* =========================================
+   7. DASHBOARD E HISTÓRICO GERAL
+========================================= */
+/* Cartões de Cima */
+.summary-cards { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 25px; 
+    margin-bottom: 40px; 
+}
+.card { 
+    background-color: var(--card-bg); 
+    padding: 25px; 
+    border-radius: 16px; 
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    border: 1px solid rgba(255,255,255,0.05); 
+}
+.card h3 { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; }
+.card p { font-size: 1.8rem; font-weight: 700; }
+.icon-green { color: var(--success); font-size: 2.5rem; }
+.icon-red { color: var(--danger); font-size: 2.5rem; }
+.icon-blue { color: var(--info); font-size: 2.5rem; }
+
+/* Grid de Gráficos */
+.dashboard-grid { 
+    display: grid; 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 25px; 
+    margin-bottom: 40px; 
+}
+@media (max-width: 992px) { .dashboard-grid { grid-template-columns: 1fr; } }
+.chart-panel { display: flex; flex-direction: column; align-items: center; }
+.chart-panel h3 { width: 100%; text-align: left; margin-bottom: 20px; font-size: 1.1rem; font-weight: 600; }
+.chart-container { width: 100%; max-width: 500px; height: 300px; position: relative; }
+.chart-icon-primary { color: var(--primary-color); }
+.chart-icon-info { color: var(--info); }
+.chart-icon-danger { color: var(--danger); }
+.chart-icon-success { color: var(--success); }
+
+/* Top 5 e Listas */
+.top5-list { display: flex; flex-direction: column; gap: 15px; margin-top: 15px; }
+.top5-item { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    background-color: var(--card-bg); 
+    padding: 12px 18px; 
+    border-radius: 8px; 
+    border-left: 4px solid var(--danger); 
+}
+.top5-info { display: flex; flex-direction: column; }
+.top5-info strong { font-size: 0.95rem; }
+.top5-info span { font-size: 0.8rem; color: var(--text-muted); }
+.top5-valor { font-weight: 700; color: var(--danger); font-size: 1.1rem; }
+
+/* Seção de Upload */
+.upload-section { 
+    background-color: var(--sidebar-bg); 
+    padding: 25px; 
+    border-radius: 16px; 
+    border: 1px dashed var(--primary-color); 
+    margin-bottom: 40px; 
+}
+.upload-box { display: flex; gap: 15px; margin-top: 20px; align-items: center; }
+.hidden-input { display: none; }
+.custom-file-upload { 
+    background-color: var(--card-bg); 
+    color: var(--text-muted); 
+    border: 1px solid var(--border-color); 
+    padding: 12px 24px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-weight: 500; 
+    transition: all 0.3s; 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+}
+.custom-file-upload:hover { background-color: var(--border-color); color: white; }
+
+/* Transações Individuais e Listas */
+.lista-gastos { display: flex; flex-direction: column; gap: 15px; margin-top: 25px; }
+.transacao-card { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 18px; 
+    background-color: var(--card-bg); 
+    border-radius: 12px; 
+    border: 1px solid var(--border-color); 
+}
+.transacao-info { display: flex; align-items: center; gap: 15px; }
+.transacao-info i { width: 30px; text-align: center; }
+.transacao-detalhes { display: flex; flex-direction: column; }
+.transacao-detalhes strong { font-size: 1.05rem; }
+.transacao-detalhes span { font-size: 0.85rem; color: var(--text-muted); }
+.valor-transacao { margin-top: 5px; font-size: 1.15rem; }
+
+/* Controles de Revisão de IA */
+.revisao-controles { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+/* Layout da Grade de Gastos Incertos no Modal */
+#lista-incertos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* Força as 2 colunas */
+    gap: 15px;
+    max-height: 50vh;
+    overflow-y: auto;
+    overflow-x: hidden; /* Remove o scroll horizontal */
+    padding-right: 5px;
+}
+
+/* Travas de segurança para impedir que textos gigantes empurrem a tela */
+#lista-incertos .transacao-card {
+    min-width: 0; 
+}
+
+#lista-incertos .transacao-info {
+    min-width: 0; /* Permite que a metade esquerda encolha */
+    flex: 1; /* Empurra os botões de IA para a direita */
+    padding-right: 15px;
+}
+
+#lista-incertos .transacao-detalhes {
+    min-width: 0; /* Essencial para o Flexbox aceitar a quebra de linha */
+}
+
+#lista-incertos .transacao-detalhes strong {
+    display: block;
+    word-break: break-word; /* Força o nome do PIX a quebrar de linha dentro do card */
+    white-space: normal;
+}
+
+/* Em telas de monitores menores ou celulares, cai para 1 coluna elegantemente */
+@media (max-width: 950px) { 
+    #lista-incertos { grid-template-columns: 1fr; } 
+}
+.ai-values { display: flex; flex-direction: column; align-items: flex-end; }
+.ai-badge { margin-bottom: 5px; }
+.ai-confidence { font-size: 0.75rem; color: var(--success); }
+.empty-ai-msg { color: var(--text-muted); }
+.icon-warning { color: #F1C40F; }
+
+/* Histórico Retrátil */
+.historico-section { margin-bottom: 40px; }
+.accordion-historico { 
+    background-color: var(--sidebar-bg); 
+    border: 1px solid var(--border-color); 
+    border-radius: 12px; 
+    overflow: hidden; 
+}
+.accordion-historico summary { 
+    padding: 20px 25px; 
+    font-size: 1.1rem; 
+    font-weight: 600; 
+    color: var(--text-main); 
+    cursor: pointer; 
+    list-style: none; 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    background-color: var(--card-bg); 
+    transition: background 0.3s; 
+}
+.accordion-historico summary::-webkit-details-marker { display: none; }
+.accordion-historico summary:hover { background-color: var(--border-color); }
+.accordion-content { 
+    padding: 25px; 
+    border-top: 1px solid var(--border-color); 
+    max-height: 600px; 
+    overflow-y: auto; 
+}
+.accordion-content::-webkit-scrollbar { width: 8px; }
+.accordion-content::-webkit-scrollbar-track { background-color: var(--bg-color); border-radius: 10px; }
+.accordion-content::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-radius: 10px; }
+
+/* Grid do Histórico e Divisores de Mês */
+.historico-grid { display: grid; gap: 15px; }
+@media (min-width: 768px) { .historico-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.mes-divisor { 
+    grid-column: 1 / -1; 
+    display: flex; 
+    align-items: center; 
+    gap: 15px; 
+    margin-top: 25px; 
+    margin-bottom: 5px; 
+}
+.mes-divisor:first-child { margin-top: 5px; }
+.mes-divisor span { 
+    font-size: 1.15rem; 
+    font-weight: 600; 
+    color: var(--primary-color); 
+    text-transform: capitalize; 
+    white-space: nowrap; 
+}
+.mes-divisor hr { 
+    flex: 1; 
+    border: none; 
+    border-top: 1px dashed var(--border-color); 
+    opacity: 0.7; 
+}
+
+#btn-atualizar-historico { margin-top: 15px; }
+.loading-history { text-align:center; color: var(--text-muted); margin-top: 20px; }
+
+/* Metas de Orçamento (Lateral do Dashboard) */
+.budget-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.budget-header h3 { margin: 0; }
+.orcamento-list { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 20px; 
+    margin-top: 15px; 
+    max-height: 380px; 
+    overflow-y: auto; 
+    padding-right: 10px; 
+}
+.orcamento-list::-webkit-scrollbar { width: 6px; }
+.orcamento-list::-webkit-scrollbar-track { background-color: var(--bg-color); border-radius: 10px; }
+.orcamento-list::-webkit-scrollbar-thumb { background-color: var(--success); border-radius: 10px; }
+
+.orcamento-item { display: flex; flex-direction: column; gap: 8px; }
+.orcamento-header { display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 500; }
+.orcamento-track { 
+    width: 100%; 
+    height: 10px; 
+    background-color: var(--sidebar-bg); 
+    border-radius: 5px; 
+    overflow: hidden; 
+    border: 1px solid var(--border-color); 
+}
+.orcamento-fill { height: 100%; border-radius: 5px; transition: width 0.8s ease; }
+.orcamento-footer-text { font-size: 0.75rem; color: var(--text-muted); text-align: right; }
+
+/* Modal de Edição de Orçamentos */
+.budget-modal { max-width: 500px; }
+.form-orcamentos-container { display: flex; flex-direction: column; gap: 5px; }
+.orcamento-edit-item { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 12px 0; 
+    border-bottom: 1px dashed var(--border-color); 
+}
+.orcamento-edit-item:last-child { border-bottom: none; }
+.budget-item-name { display: flex; align-items: center; gap: 10px; }
+.budget-item-name i { width: 20px; text-align: center; }
+.budget-item-input { display: flex; align-items: center; gap: 5px; }
+
+.input-orcamento { 
+    background-color: var(--bg-color); 
+    border: 1px solid var(--border-color); 
+    color: var(--text-main); 
+    padding: 8px 12px; 
+    border-radius: 8px; 
+    font-size: 1rem; 
+    width: 130px; 
+    text-align: right; 
+    outline: none; 
+    transition: border-color 0.3s; 
+}
+.input-orcamento:focus { border-color: var(--primary-color); }
+.input-orcamento::-webkit-outer-spin-button,
+.input-orcamento::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.input-orcamento[type=number] { -moz-appearance: textfield; }
+
+.footer-spaced { display: flex; justify-content: flex-end; gap: 15px; }
+.margin-top-10 { margin-top: 10px; }
+.empty-list-msg { color: var(--text-muted); font-size: 0.9rem; }
+
+
+/* =========================================
+   8. FASE 4: METAS E PREVISÃO
+========================================= */
+.section-header { margin-bottom: 15px; }
+.section-header h2 { font-size: 1.5rem; }
+.section-header p { color: var(--text-muted); font-size: 0.95rem; }
+
+.radar-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+}
+@media (max-width: 992px) { .radar-grid { grid-template-columns: 1fr; } }
+
+.chart-title { text-align: center; margin-bottom: 5px; }
+.radar-receita-sub { text-align: center; font-size: 0.85rem; margin-bottom: 5px; }
+.radar-container { height: 250px; }
+
+.metas-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    margin-top: 20px;
+}
+@media (max-width: 992px) { .metas-grid { grid-template-columns: 1fr; } }
+
+.meta-card {
+    background-color: var(--sidebar-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.meta-header { display: flex; justify-content: space-between; align-items: center; }
+.meta-title { display: flex; align-items: center; gap: 15px; font-size: 1.2rem; font-weight: 600; }
+.meta-icon-box {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+}
+
+.meta-progress-bg {
+    width: 100%;
+    height: 14px;
+    background-color: var(--progress-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+.meta-progress-fill { height: 100%; border-radius: 10px; transition: width 1s ease-in-out; }
+
+.predicao-accordion {
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+.predicao-accordion summary {
+    padding: 12px 15px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--info);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.predicao-accordion summary::-webkit-details-marker { display: none; }
+.predicao-accordion summary:hover { filter: brightness(1.2); }
+
+.predicao-content {
+    padding: 15px;
+    border-top: 1px dashed var(--border-color);
+    font-size: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.predicao-row { display: flex; justify-content: space-between; color: var(--text-muted); }
+.predicao-row strong { color: var(--text-main); }
+
+.calc-preditiva {
+    margin-top: 10px;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+.calc-preditiva input[type="month"] {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color-scheme: dark; 
+    outline: none;
+    transition: border-color 0.3s;
+    cursor: pointer;
+}
+.calc-preditiva input[type="month"]:focus { border-color: var(--primary-color); }
+.calc-preditiva input[type="month"]::-webkit-calendar-picker-indicator {
+    background-color: var(--sidebar-bg);
+    border: 1px solid var(--border-color);
+    padding: 6px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.calc-preditiva input[type="month"]::-webkit-calendar-picker-indicator:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-hover);
+    opacity: 0.9;
+}
+
+/* =========================================
+   9. FASE 5: GESTÃO DE CATEGORIAS
+========================================= */
+.categorias-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.cat-manager-card {
+    background-color: var(--sidebar-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.cat-manager-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+}
+
+.cat-manager-header { display: flex; align-items: center; gap: 15px; }
+
+.cat-manager-stats {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    background-color: var(--bg-color);
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.badge-system {
+    background-color: rgba(52, 152, 219, 0.15);
+    color: #3498db;
+    border: 1px solid #3498db;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* =========================================
+   CLASSES UTILITÁRIAS (Refatoração Final)
+========================================= */
+.flex-between { display: flex; justify-content: space-between; align-items: center; }
+.bottom-border { border-bottom: 1px solid var(--border-color); padding-bottom: 20px; margin-bottom: 20px; }
+.align-center { display: flex; align-items: center; gap: 10px; }
+.form-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 15px; }
+.form-group label { font-size: 0.95rem; font-weight: 500; }
+.color-picker { cursor: pointer; width: 100%; height: 40px; border-radius: 8px; border: none; }
+.medium-modal { max-width: 450px; }
+.small-modal { max-width: 400px; }
+.margin-b-40 { margin-bottom: 40px; }
+.margin-t-25 { margin-top: 25px; }
+.info-box { background-color: var(--bg-color); padding: 15px; border-radius: 8px; border-left: 4px solid var(--info); margin-bottom: 20px; }
+.info-box p { font-size: 0.9rem; color: var(--text-muted); margin: 0; }
+.text-right-box { text-align: right; background-color: var(--card-bg); padding: 10px 20px; border-radius: 12px; border: 1px dashed var(--border-color); }
+.chart-projecao-container { height: 350px; width: 100%; }
+
+/* Correções Finais: Quebra de Linha e Cores do Menu */
+#mes-selecionado-texto { white-space: nowrap; }
+
+:root.light-mode nav ul li.active a { color: #FFFFFF; }
+
+/* Botão Rápido de Ignorar (Indefinida) */
+.btn-ignorar, .btn-ignorar-hist {
+    color: var(--text-muted); 
+    background: var(--bg-color); 
+    padding: 8px 12px; 
+    border-radius: 8px; 
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.btn-ignorar:hover, .btn-ignorar-hist:hover {
+    color: var(--text-main);
+    border-color: var(--primary-color);
+}
+
+/* Filtros e Legendas do Histórico */
+.btn-filtro {
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+.btn-filtro:hover { color: var(--text-main); border-color: var(--primary-color); }
+.btn-filtro.active { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
+
+.badge-manual { font-size: 0.75rem; color: var(--info); border: 1px solid var(--info); padding: 4px 8px; border-radius: 4px; display: inline-block; margin-top: 5px; white-space: nowrap; }
+.badge-ia { font-size: 0.75rem; color: var(--success); border: 1px solid var(--success); padding: 4px 8px; border-radius: 4px; display: inline-block; margin-top: 5px; white-space: nowrap; }
+
+/* Correção para caixas vazias ocuparem toda a tela no Grid */
+.full-width {
+    width: 100%;
+    grid-column: 1 / -1;
+}
+
+/* =========================================
+   BOTÕES DOS MODAIS (ALERTA E CONFIRM)
+========================================= */
+.alerta-botoes {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+    width: 100%;
+}
+
+/* Base padronizada para os botões do modal */
+.alerta-botoes button {
+    flex: 1;
+    padding: 10px 15px; /* Reduz a altura (padding vertical menor) */
+    font-size: 0.95rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    white-space: nowrap; /* IMPEDE a quebra de texto (mantém em uma linha) */
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Animação sofisticada */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- Botão Cancelar --- */
+.btn-modal-cancel {
+    background-color: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+}
+.btn-modal-cancel:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+    transform: translateY(-2px); /* Efeito de elevação */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* --- Botão Perigo (Vermelho) --- */
+.btn-modal-danger {
+    background-color: var(--danger);
+    color: white;
+    border: 1px solid var(--danger);
+}
+.btn-modal-danger:hover {
+    background-color: #c0392b; /* Vermelho levemente mais escuro */
+    border-color: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4); /* Sombra brilhante avermelhada */
+}
+
+/* --- Botão Primário (Roxo - Para o 'Entendi') --- */
+.btn-modal-primary {
+    background-color: var(--primary-color);
+    color: white;
+    border: 1px solid var(--primary-color);
+}
+.btn-modal-primary:hover {
+    filter: brightness(1.2);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(123, 44, 191, 0.4); /* Sombra brilhante roxa */
+}

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financitas - Categorias</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='%237B2CBF' d='M448 256c0-106-86-192-192-192V256H448zM224 64C118 64 32 150 32 256s86 192 192 192 192-86 192-192H224V64z'/></svg>">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Menu Lateral -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-chart-pie"></i>
+                <h2>Financitas</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+                    <li><a href="metas.html"><i class="fa-solid fa-bullseye"></i> Metas & Previsão</a></li>
+                    <li class="active"><a href="categorias.html"><i class="fa-solid fa-tags"></i> Categorias</a></li>
+                    <li><a href="configuracoes.html"><i class="fa-solid fa-gear"></i> Configurações</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <header class="page-header">
+                <h1>Painel de Categorias</h1>
+                <div class="user-info">
+                    <div class="user-status">
+                        <span class="text-muted">Modo Offline (Local)</span>
+                        <i class="fa-solid fa-circle-user text-muted"></i>
+                    </div>
+                </div>
+            </header>
+
+            <div class="section-header flex-between bottom-border">
+                <div>
+                    <h2><i class="fa-solid fa-tags chart-icon-primary"></i> Organização do Sistema</h2>
+                    <p class="text-muted">Crie novas categorias, personalize as cores e gerencie a base do seu histórico financeiro.</p>
+                </div>
+                <button id="btn-nova-categoria" class="btn-primary"><i class="fa-solid fa-plus"></i> Nova Categoria</button>
+            </div>
+
+            <!-- SEÇÃO 1: FÁBRICA -->
+            <h3 class="margin-b-40" style="margin-bottom: 15px;">Padrão de Fábrica (Essenciais)</h3>
+            <section id="lista-categorias-fabrica" class="categorias-grid margin-b-40">
+                <!-- Preenchido via JS -->
+            </section>
+            
+            <div class="elegant-divider"></div>
+
+            <!-- SEÇÃO 2: CUSTOMIZADAS -->
+            <h3 class="margin-b-40" style="margin-bottom: 15px;">Minhas Categorias Livres</h3>
+            <section id="lista-categorias-livres" class="categorias-grid">
+                <!-- Preenchido via JS -->
+            </section>
+        </main>
+    </div>
+
+    <!-- MODAL DE CATEGORIA (Criar / Editar) -->
+    <div id="modal-categoria" class="modal-overlay hidden">
+        <div class="modal-content small-modal">
+            <div class="modal-header">
+                <h2 id="titulo-modal-categoria">Nova Categoria</h2>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="input-cat-id">
+                
+                <div class="form-group">
+                    <label>Nome da Categoria</label>
+                    <input type="text" id="input-cat-nome" class="input-orcamento full-width" style="text-align: left;" placeholder="Ex: Assinaturas">
+                </div>
+                
+                <div class="form-group">
+                    <label>Ícone (FontAwesome)</label>
+                    <input type="text" id="input-cat-icone" class="input-orcamento full-width" style="text-align: left;" placeholder="Ex: fa-gamepad">
+                    <p class="text-muted" style="font-size: 0.75rem; margin-top: 5px;">Use classes como: <i>fa-car, fa-book, fa-music...</i></p>
+                </div>
+
+                <div class="form-group">
+                    <label>Cor de Identificação</label>
+                    <input type="color" id="input-cat-cor" value="#9D4EDD" class="color-picker">
+                </div>
+            </div>
+            <div class="modal-footer footer-spaced">
+                <button id="btn-fechar-categoria" class="btn-cancel">Cancelar</button>
+                <button id="btn-salvar-categoria" class="btn-success">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Alerta Customizado (Global) -->
+    <div id="custom-alert" class="alerta-modal">
+        <div class="alerta-content">
+            <div id="alert-icon" class="alerta-icone">
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <h3 id="alert-title">Aviso</h3>
+            <p id="alert-message" class="alerta-mensagem">Sua mensagem aqui.</p>
+            <div class="alerta-botoes">
+                <button class="btn-modal-primary" onclick="fecharAlerta()">Entendi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação Customizado (Global) -->
+    <div id="custom-confirm" class="alerta-modal">
+        <div class="alerta-content">
+            <div class="alerta-icone erro">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3>Confirmação Necessária</h3>
+            <p id="confirm-message" class="alerta-mensagem">Tem certeza que deseja fazer isso?</p>
+            <div class="alerta-botoes">
+                <button class="btn-modal-cancel" onclick="fecharConfirm(false)">Cancelar</button>
+                <button class="btn-modal-danger" onclick="fecharConfirm(true)">Sim, Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+    <script src="categorias.js"></script>
+</body>
+</html>

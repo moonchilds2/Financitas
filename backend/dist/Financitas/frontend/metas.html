@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financitas - Metas & Previsão</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='%237B2CBF' d='M448 256c0-106-86-192-192-192V256H448zM224 64C118 64 32 150 32 256s86 192 192 192 192-86 192-192H224V64z'/></svg>">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Menu Lateral -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-chart-pie"></i>
+                <h2>Financitas</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+                    <li class="active"><a href="metas.html"><i class="fa-solid fa-bullseye"></i> Metas & Previsão</a></li>
+                    <li><a href="categorias.html"><i class="fa-solid fa-tags"></i> Categorias</a></li>
+                    <li><a href="configuracoes.html"><i class="fa-solid fa-gear"></i> Configurações</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <header class="page-header">
+                <h1>Visão de Futuro</h1>
+                <div class="user-info">
+                    <div class="user-status">
+                        <span class="text-muted">Modo Offline (Local)</span>
+                        <i class="fa-solid fa-circle-user text-muted"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- SEÇÃO 1: METAS DE VIDA -->
+            <div class="section-header flex-between bottom-border">
+                <div>
+                    <h2><i class="fa-solid fa-rocket chart-icon-primary"></i> Meus Sonhos & Metas</h2>
+                    <p class="text-muted">Acompanhe seus cofrinhos e calcule o tempo para realizar seus objetivos de longo prazo.</p>
+                </div>
+                <button id="btn-nova-meta" class="btn-primary"><i class="fa-solid fa-plus"></i> Novo Sonho</button>
+            </div>
+
+            <section id="lista-metas" class="metas-grid margin-b-40">
+                <p class="text-muted" style="padding: 20px;">Carregando suas metas...</p>
+            </section>
+
+            <div class="elegant-divider"></div>
+
+            <!-- SEÇÃO 2: PROJEÇÃO DE GASTOS FUTUROS -->
+            <div class="section-header flex-between bottom-border">
+                <div>
+                    <h2><i class="fa-solid fa-arrow-trend-up chart-icon-danger"></i> Projeção de Gastos (Próximo Mês)</h2>
+                    <p class="text-muted">O motor IA calculou seu histórico e estimou o fluxo do seu dinheiro para o próximo mês.</p>
+                </div>
+                <div class="text-right-box">
+                    <p class="text-muted" style="font-size: 0.85rem; margin-bottom: 0;">Gasto Total Projetado</p>
+                    <h3 id="valor-projecao-total" class="text-red" style="font-size: 1.6rem;">R$ 0,00</h3>
+                </div>
+            </div>
+
+            <section class="panel margin-b-40">
+                <div class="chart-container chart-projecao-container">
+                    <canvas id="graficoProjecao"></canvas>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MODAL DE NOVA META -->
+    <div id="modal-nova-meta" class="modal-overlay hidden">
+        <div class="modal-content medium-modal">
+            <div class="modal-header"><h2>Criar Novo Cofrinho</h2></div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Nome do Sonho (Ex: Carro Novo)</label>
+                    <input type="text" id="input-meta-nome" class="input-orcamento full-width" style="text-align: left;">
+                </div>
+                <div class="form-group">
+                    <label>Qual o valor necessário? (R$)</label>
+                    <input type="number" id="input-meta-valor" class="input-orcamento full-width" style="text-align: left;">
+                </div>
+                <div class="form-group">
+                    <label>Escolha uma cor para a barra:</label>
+                    <input type="color" id="input-meta-cor" value="#9D4EDD" class="color-picker">
+                </div>
+            </div>
+            <div class="modal-footer footer-spaced">
+                <button id="btn-fechar-meta" class="btn-cancel">Cancelar</button>
+                <button id="btn-salvar-meta" class="btn-success">Criar Meta</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE ADICIONAR SALDO -->
+    <div id="modal-add-saldo" class="modal-overlay hidden">
+        <div class="modal-content small-modal">
+            <div class="modal-header">
+                <h2>Adicionar Dinheiro</h2>
+                <p id="titulo-add-saldo" class="text-green"></p>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Quanto você guardou hoje? (R$)</label>
+                    <input type="number" id="input-add-saldo" class="input-orcamento full-width" style="text-align: left;" placeholder="Ex: 150.00">
+                    <input type="hidden" id="id-meta-alvo">
+                </div>
+            </div>
+            <div class="modal-footer footer-spaced">
+                <button id="btn-fechar-saldo" class="btn-cancel">Cancelar</button>
+                <button id="btn-salvar-saldo" class="btn-success">Guardar Valor</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Alerta Customizado (Global) -->
+    <div id="custom-alert" class="alerta-modal">
+        <div class="alerta-content">
+            <div id="alert-icon" class="alerta-icone">
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <h3 id="alert-title">Aviso</h3>
+            <p id="alert-message" class="alerta-mensagem">Sua mensagem aqui.</p>
+            <div class="alerta-botoes">
+                <button class="btn-modal-primary" onclick="fecharAlerta()">Entendi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação Customizado (Global) -->
+    <div id="custom-confirm" class="alerta-modal">
+        <div class="alerta-content">
+            <div class="alerta-icone erro">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3>Confirmação Necessária</h3>
+            <p id="confirm-message" class="alerta-mensagem">Tem certeza que deseja fazer isso?</p>
+            <div class="alerta-botoes">
+                <button class="btn-modal-cancel" onclick="fecharConfirm(false)">Cancelar</button>
+                <button class="btn-modal-danger" onclick="fecharConfirm(true)">Sim, Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+    <script src="metas.js"></script>
+</body>
+</html>

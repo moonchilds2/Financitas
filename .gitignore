@@ -1,0 +1,11 @@
+venv/
+__pycache__/
+.pytest_cache/
+build/
+**/build/
+financitas.db
+dados_financeiros.db
+*.db
+financitas_database.db
+/backend/build/Financitas
+/backend/build

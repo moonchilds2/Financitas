@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financitas - Configurações</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='%237B2CBF' d='M448 256c0-106-86-192-192-192V256H448zM224 64C118 64 32 150 32 256s86 192 192 192 192-86 192-192H224V64z'/></svg>">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Menu Lateral -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-chart-pie"></i>
+                <h2>Financitas</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+                    <li><a href="metas.html"><i class="fa-solid fa-bullseye"></i> Metas & Previsão</a></li>
+                    <li><a href="categorias.html"><i class="fa-solid fa-tags"></i> Categorias</a></li>
+                    <li class="active"><a href="configuracoes.html"><i class="fa-solid fa-gear"></i> Configurações</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="page-header">
+                <h1>Configurações</h1>
+            </header>
+
+            <div class="dashboard-grid">
+                
+                <!-- BLOCO 1: INTERFACE -->
+                <div class="panel">
+                    <h3 class="margin-b-40" style="margin-bottom: 20px;"><i class="fa-solid fa-desktop chart-icon-primary"></i> Interface & Preferências</h3>
+                    
+                    <div class="flex-between bottom-border">
+                        <div>
+                            <strong>Modo Claro</strong>
+                            <p class="text-muted" style="font-size: 0.85rem; margin: 0;">Altera o tema visual do sistema.</p>
+                        </div>
+                        <label class="switch"><input type="checkbox" id="toggle-tema"><span class="slider round"></span></label>
+                    </div>
+
+                    <div class="flex-between">
+                        <div>
+                            <strong>Modo Privacidade</strong>
+                            <p class="text-muted" style="font-size: 0.85rem; margin: 0;">Oculta valores na tela para usar em público.</p>
+                        </div>
+                        <label class="switch"><input type="checkbox" id="toggle-privacidade"><span class="slider round"></span></label>
+                    </div>
+                </div>
+
+                <!-- BLOCO 2: DADOS E BACKUP -->
+                <div class="panel">
+                    <h3 class="margin-b-40" style="margin-bottom: 20px;"><i class="fa-solid fa-database chart-icon-primary"></i> Dados & Backup</h3>
+                    
+                    <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 20px;">
+                        Exporte seu banco de dados tratado ou limpe o histórico atual (suas metas e categorias não serão afetadas).
+                    </p>
+                    <div class="form-group">
+                        <button id="btn-exportar" class="btn-success full-width" style="margin-bottom: 10px;"><i class="fa-solid fa-file-csv"></i> Exportar Dados (.CSV)</button>
+                        <button id="btn-zerar-heuri" class="btn-cancel full-width" style="color: #F1C40F; border-color: #F1C40F; margin-bottom: 10px;"><i class="fa-solid fa-eraser"></i> Zerar Atalhos da IA</button>
+                        <button id="btn-zerar-banco" class="btn-cancel full-width" style="color: var(--danger); border-color: var(--danger);"><i class="fa-solid fa-triangle-exclamation"></i> Zerar Histórico</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BLOCO 3: INTELIGÊNCIA ARTIFICIAL -->
+            <div class="panel margin-t-25">
+                <h3 style="margin-bottom: 15px;"><i class="fa-solid fa-brain chart-icon-primary"></i> Motor de Classificação (IA)</h3>
+                
+                <div class="info-box">
+                    <p>
+                        <strong style="color: var(--text-main);">Como isso afeta o sistema?</strong><br>
+                        Quando você faz o upload de uma fatura, a IA calcula um % de certeza para cada transação. 
+                        Se a certeza for <b>menor</b> que o nível configurado abaixo, a transação irá para a aba amarela exigindo sua "Revisão Manual". Se for maior, ela entra direto no histórico verde automaticamente.
+                    </p>
+                </div>
+
+                <div class="flex-between" style="margin-bottom: 10px;">
+                    <strong>Nível de Confiança Exigido: <span id="label-confianca" class="chart-icon-primary">75%</span></strong>
+                </div>
+                
+                <input type="range" id="slider-confianca" min="50" max="99" value="75" class="full-width" style="cursor: pointer;">
+                
+                <div class="flex-between text-muted" style="font-size: 0.8rem; margin-top: 5px;">
+                    <span>Mais Rápido (50%)</span>
+                    <span>Mais Seguro (99%)</span>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Alerta Customizado (Global) -->
+    <div id="custom-alert" class="alerta-modal">
+        <div class="alerta-content">
+            <div id="alert-icon" class="alerta-icone">
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <h3 id="alert-title">Aviso</h3>
+            <p id="alert-message" class="alerta-mensagem">Sua mensagem aqui.</p>
+            <div class="alerta-botoes">
+                <button class="btn-modal-primary" onclick="fecharAlerta()">Entendi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação Customizado (Global) -->
+    <div id="custom-confirm" class="alerta-modal">
+        <div class="alerta-content">
+            <div class="alerta-icone erro">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3>Confirmação Necessária</h3>
+            <p id="confirm-message" class="alerta-mensagem">Tem certeza que deseja fazer isso?</p>
+            <div class="alerta-botoes">
+                <button class="btn-modal-cancel" onclick="fecharConfirm(false)">Cancelar</button>
+                <button class="btn-modal-danger" onclick="fecharConfirm(true)">Sim, Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    
+    <script src="configuracoes.js"></script>
+</body>
+</html> 
